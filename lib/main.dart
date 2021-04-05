@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:poke_project/Components/Card.dart';
+import 'package:http/http.dart' as http;
+import 'package:poke_project/Api.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -11,40 +15,75 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: Container(
-        color: Colors.purple,
-        child: Stack(
-          children: [
-            Column(children: [
-              Expanded(child: Container(
-                padding: EdgeInsets.all(50),
-                child: Text(
-                  'Gengar'
-                ),
-              )),
-              Expanded(
-                child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(25),
-                        topLeft: Radius.circular(25))),
-              ))
-            ]),
-            Container(
-              alignment: Alignment.center,
-              padding: EdgeInsets.only(bottom: 100),
-              child: Image.network(
-                'https://assets.pokemon.com/assets/cms2/img/pokedex/full/094.png',
-                height: 250,
-                fit: BoxFit.cover,
-              ))
-          ],
-        ),
-      ),
+      home: HomeExaple()
     );
   }
 }
 
-//
-// 
+class HomeExaple extends StatefulWidget {
+  @override
+  _HomeExapleState createState() => _HomeExapleState();
+}
+
+class _HomeExapleState extends State<HomeExaple> {
+  List<Api> _api = List();
+  bool visual = false;
+
+  Future<List<Api>> _getUser() async{
+    try {
+      List<Api> listUsers = List();
+      final response = await http.get(
+        'https://jsonplaceholder.typicode.com/users'
+      );
+      if(response.statusCode == 200){
+        var decodeJson = jsonDecode(response.body);
+        decodeJson.forEach((item) => listUsers.add(Api.fromJson(item)));
+        return listUsers;
+      }else{
+        print('Erro ao carregar lista');
+        return null;
+      }
+    } catch (e) {
+      print('Erro ao carregar lista');
+      return null;
+    }
+  }
+  @override
+  void initState(){
+    super.initState();
+    _getUser().then((map){
+      setState(() {
+        _api = map;
+        visual = true;
+      });
+     
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: SafeArea(
+          child: 
+          visual == false ? Container() :
+          ListView.builder(
+            itemCount: _api.length,
+            itemBuilder: (context, index){
+              return ListTile(
+               title: Text('data')
+              );
+            },
+
+        )),
+    );
+  }
+}
+
+
+
+// MaterialPageRoute(
+//                         builder: (context) => ScoreScreen(
+//                           totalQuestions: questionslist.length,
+//                           result: score,
+
+//                         )
+//                       )
