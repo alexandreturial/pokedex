@@ -53,17 +53,6 @@ class _HomeState extends State<Home> {
                 child: Expanded(
                   child: Container(
                     child: 
-                    
-                    // GridView.count(
-                    //   childAspectRatio: (1000 / 800),
-                    //   padding: const EdgeInsets.all(20),
-                    //   crossAxisSpacing: 10,
-                    //   mainAxisSpacing: 10,
-                    //   crossAxisCount: 2,
-                    //   children: <Widget>[
-                    //     CardPoke(),
-                    //   ],
-                    // )
                     Observer(
                       builder: (BuildContext context) {
                         PokeAPI _pokeApi = pokeApiStore.pokeAPI;
