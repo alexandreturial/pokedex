@@ -8,6 +8,47 @@ class CardPoke extends StatelessWidget {
   final Widget image;
   final List<String> types;
 
+
+ Widget setTipos() {
+    List<Widget> lista = [];
+    types.forEach((nome) {
+      lista.add(
+        Column(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                  color: Color.fromARGB(80, 255, 255, 255),
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              child: Text(
+                nome.trim(),
+                style: TextStyle(
+                    fontFamily: 'Google',
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            )
+          ],
+        ),
+      );
+    });
+
+    
+    return Column(
+      children: lista,
+      crossAxisAlignment: CrossAxisAlignment.start,
+    );
+  }
+
+
+
+
   CardPoke(
       {Key key, this.name = '', this.index, this.color, this.image, this.types})
       : super(key: key);
@@ -40,33 +81,24 @@ class CardPoke extends StatelessWidget {
                     fontFamily: 'Google')),
           ),
           Stack(
-           
             children: [
               Column(
                 children: [
-                  Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.18),
-                          borderRadius: BorderRadius.circular(50)),
-                      child: Text(
-                        'fantasma',
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      )),
+                  setTipos()
                 ],
               ),
               Container(
-                height: 80,
-              
+                height: MediaQuery.of(context).size.width * 0.2,
                 child: Stack(children: [
                   Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomRight,      
                     child: Opacity(
-                      child: Image.asset(ConstsApp.whitePokeBall),
-                      opacity: 0.2,
+                      child: Image.asset(ConstsApp.whitePokeBall,  height: MediaQuery.of(context).size.width * 0.2),
+                      opacity: 0.15,
                     ),
                   ),
                   Align(
+                    
                     alignment: Alignment.bottomRight,
                     child: image,
                   )
